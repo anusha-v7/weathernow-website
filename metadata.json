@@ -1,0 +1,6 @@
+{
+  "name": "WeatherNow - Professional Weather Dashboard",
+  "description": "A modern, responsive weather dashboard web application built with HTML5, CSS3, and Vanilla JavaScript for Auspify Technologies internship project.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

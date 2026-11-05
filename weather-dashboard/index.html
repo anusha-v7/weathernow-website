@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Title & SEO Meta synchronized with metadata.json -->
+    <title>WeatherNow - Professional Weather Dashboard</title>
+    <meta name="description" content="A modern, responsive weather dashboard web application built with HTML5, CSS3, and Vanilla JavaScript for Auspify Technologies internship project." />
+    <meta property="og:title" content="WeatherNow - Professional Weather Dashboard" />
+    <meta property="og:description" content="A modern, responsive weather dashboard web application built with HTML5, CSS3, and Vanilla JavaScript for Auspify Technologies internship project." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- 1. Header & Top Navigation Bar -->
+    <header class="site-header">
+      <div class="app-container header-inner">
+        <!-- Brand Wordmark & Icon -->
+        <a href="#dashboard" class="brand-link" aria-label="WeatherNow Dashboard Home">
+          <div class="brand-icon-box">
+            <!-- Sun & Cloud Logo Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v2"/>
+              <path d="m4.93 4.93 1.41 1.41"/>
+              <path d="M20 12h2"/>
+              <path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/>
+              <path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/>
+            </svg>
+          </div>
+          <div class="brand-name">
+            <span>Weather</span><span class="brand-accent">Now</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="header-nav" aria-label="Main Navigation">
+          <a href="#dashboard" class="nav-link active">Dashboard</a>
+          <a href="#forecast-section" class="nav-link">Forecast</a>
+          <a href="#about" class="nav-link nav-about-trigger">About Project</a>
+        </nav>
+
+        <!-- Header Actions & Controls Zone -->
+        <div class="header-actions">
+          <!-- Live Current Date Display -->
+          <div class="header-date-badge" id="header-date-container">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+              <line x1="16" x2="16" y1="2" y2="6"/>
+              <line x1="8" x2="8" y1="2" y2="6"/>
+              <line x1="3" x2="21" y1="10" y2="10"/>
+            </svg>
+            <span id="header-current-date">Loading date...</span>
+          </div>
+
+          <!-- Temperature Unit Toggle (°C / °F) -->
+          <button id="unit-toggle-btn" class="header-btn unit-toggle-btn" title="Toggle Temperature Unit (°C / °F)" aria-label="Toggle Temperature Unit">
+            °C
+          </button>
+
+          <!-- Light / Dark Mode Toggle -->
+          <button id="theme-toggle-btn" class="header-btn theme-toggle-btn" title="Toggle Dark/Light Mode" aria-label="Toggle Dark or Light Mode">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+
+          <!-- Mobile Hamburger Menu Button -->
+          <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Open mobile navigation menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" x2="20" y1="12" y2="12"/>
+              <line x1="4" x2="20" y1="6" y2="6"/>
+              <line x1="4" x2="20" y1="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-label="Mobile Navigation">
+        <a href="#dashboard" class="nav-link active">Dashboard</a>
+        <a href="#forecast-section" class="nav-link">Forecast & Outlook</a>
+        <a href="#about" class="nav-link nav-about-trigger">About Auspify Internship Project</a>
+      </div>
+    </header>
+
+    <!-- 2. Internship Project Context & Evaluator State Switcher Banner -->
+    <div class="project-banner">
+      <div class="app-container project-banner-inner">
+        <div class="banner-left">
+          <span class="banner-pill">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Auspify Technologies Internship Project
+          </span>
+          <span>· Phase 2: Live Open-Meteo REST API Integration</span>
+        </div>
+        <!-- Evaluator State Switcher -->
+        <div class="banner-controls">
+          <span class="state-preview-label">UI State Preview:</span>
+          <button class="state-btn active" data-state="normal">Normal</button>
+          <button class="state-btn" data-state="loading">Loading</button>
+          <button class="state-btn" data-state="error">Error</button>
+          <button class="state-btn" data-state="empty">Empty</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Main Dashboard Workspace -->
+    <main class="main-content" id="dashboard">
+      <div class="app-container">
+        
+        <!-- Location Search Section -->
+        <section class="search-section" aria-label="Location Search">
+          <div class="search-box-wrapper">
+            <div class="search-input-container">
+              <!-- Search Icon -->
+              <svg class="search-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+              <input
+                type="text"
+                id="city-search-input"
+                class="search-input"
+                placeholder="Search city or location (e.g. London, Tokyo, New York)..."
+                autocomplete="off"
+                aria-label="Search city or location"
+              />
+              <button id="search-clear-btn" class="search-clear-btn" aria-label="Clear search input">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                </svg>
+              </button>
+            </div>
+            <!-- Search Button -->
+            <button id="search-btn" class="btn-primary" aria-label="Execute Search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.3-4.3"/>
+              </svg>
+              <span>Search</span>
+            </button>
+            <!-- Current Location Button -->
+            <button id="current-location-btn" class="btn-secondary" title="Detect and load current GPS location" aria-label="Use Current Location">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Current Location</span>
+            </button>
+          </div>
+
+          <!-- Recently Searched Locations Chips -->
+          <div class="recent-searches" aria-label="Recent Searches">
+            <span class="recent-searches-title">Recent:</span>
+            <div id="recent-chips-container" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+            <button id="clear-recent-btn" class="clear-recent-btn">Clear</button>
+          </div>
+        </section>
+
+        <!-- Loading State View (Phase 1 Simulated / Phase 2 Live) -->
+        <section id="loading-state" class="state-container" aria-live="polite">
+          <div class="loading-indicator">
+            <div class="spinner-ring"></div>
+            <h2 class="loading-text">Fetching Live Meteorological Metrics...</h2>
+            <p class="loading-subtext">Connecting to atmospheric sensor stations & satellite telemetry</p>
+          </div>
+          <div class="skeleton-grid">
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+            <div class="skeleton-box"></div>
+          </div>
+        </section>
+
+        <!-- Empty State View -->
+        <section id="empty-state" class="state-container">
+          <div class="state-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+          <h2 class="state-title">Search for Any Global City</h2>
+          <p class="state-desc">Enter a location in the search bar above or click one of the preset city chips to explore real-time weather conditions, forecasts, and atmospheric telemetry.</p>
+        </section>
+
+        <!-- Error State View -->
+        <section id="error-state" class="state-container error" role="alert">
+          <div class="state-icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" x2="12" y1="8" y2="12"/>
+              <line x1="12" x2="12.01" y1="16" y2="16"/>
+            </svg>
+          </div>
+          <h2 class="state-title">Location Not Found</h2>
+          <p id="error-message-text" class="state-desc">We couldn't retrieve meteorological data for the requested query. Please verify the spelling or choose a suggested city.</p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <button id="error-retry-btn" class="btn-primary" style="height: 44px; padding: 0 1.25rem;">Try Another Search</button>
+            <button id="error-fallback-btn" class="btn-secondary" style="height: 44px; padding: 0 1.25rem;">Load Bengaluru</button>
+          </div>
+        </section>
+
+        <!-- Primary Dashboard Grid (Populated State) -->
+        <div id="dashboard-grid" class="dashboard-grid">
+          
+          <!-- Left Column (Main Stage) -->
+          <div class="dashboard-main-col">
+            
+            <!-- 4. Main Weather Overview (Hero Card) -->
+            <section class="current-weather-hero" id="current-weather-hero" aria-label="Current Weather Overview">
+              <div class="hero-glow-blob" aria-hidden="true"></div>
+              
+              <!-- Top Row: Location & Refresh -->
+              <div class="hero-top-row">
+                <div class="location-info">
+                  <h1 id="hero-city-name">London</h1>
+                  <div class="location-meta">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span id="hero-country-name">United Kingdom (GB)</span>
+                    <span aria-hidden="true">·</span>
+                    <span id="hero-live-clock" class="tabular-nums">--:--:--</span>
+                  </div>
+                </div>
+                <div class="hero-actions">
+                  <button id="hero-refresh-btn" class="hero-icon-btn" title="Refresh Live Weather Data" aria-label="Refresh Data">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                      <path d="M3 3v5h5"/>
+                      <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                      <path d="M16 16h5v5"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Body Row: Big Temperature & Condition Illustration -->
+              <div class="hero-body-row">
+                <div class="temp-container">
+                  <div class="hero-temperature" id="hero-temp-value">16</div>
+                  <div class="hero-temp-unit" id="hero-temp-unit">°C</div>
+                </div>
+                <div class="hero-visual">
+                  <div id="hero-condition-icon" class="hero-condition-icon">
+                    <!-- Dynamic SVG Icon inserted here -->
+                  </div>
+                  <div class="hero-condition-text" id="hero-condition-text">Partly Cloudy</div>
+                </div>
+              </div>
+
+              <!-- Footer Row: Feels Like, High/Low, Summary -->
+              <div class="hero-footer-row">
+                <div class="hero-temp-details">
+                  <div class="detail-item">
+                    <span>Feels like:</span>
+                    <span class="value tabular-nums" id="hero-feels-like-val">15°C</span>
+                  </div>
+                  <span aria-hidden="true" style="opacity: 0.5;">|</span>
+                  <div class="detail-item">
+                    <span>High:</span>
+                    <span class="value tabular-nums" id="hero-temp-max-val">18°C</span>
+                  </div>
+                  <span aria-hidden="true" style="opacity: 0.5;">|</span>
+                  <div class="detail-item">
+                    <span>Low:</span>
+                    <span class="value tabular-nums" id="hero-temp-min-val">11°C</span>
+                  </div>
+                </div>
+                <div class="hero-summary-pill" id="hero-summary-text">
+                  Pleasant conditions with broken cloud cover and light southwesterly breezes.
+                </div>
+              </div>
+            </section>
+
+            <!-- Atmospheric Briefing / Summary Banner -->
+            <div class="weather-summary-box">
+              <div class="summary-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 16v-4"/>
+                  <path d="M12 8h.01"/>
+                </svg>
+              </div>
+              <div class="summary-content">
+                <div class="summary-title" id="briefing-title">Atmospheric Briefing</div>
+                <div class="summary-text" id="briefing-body">Stable weather system prevailing with low precipitation risk and favorable air quality throughout the region.</div>
+              </div>
+              <div id="aqi-pill-badge" class="aqi-pill">AQI 28 · Good</div>
+            </div>
+
+            <!-- 5. Weather Details Section (6 Grid Cards) -->
+            <section class="weather-details-section" aria-label="Detailed Meteorological Metrics">
+              <div class="weather-details-grid">
+                
+                <!-- 1. Humidity Card -->
+                <div class="detail-card">
+                  <div class="detail-card-top">
+                    <span class="detail-label">Humidity</span>
+                    <div class="detail-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/>
+                        <path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="detail-card-value tabular-nums" id="detail-humidity-val">72%</div>
+                    <div class="progress-bar-wrap">
+                      <div class="progress-bar-fill" id="detail-humidity-bar" style="width: 72%;"></div>
+                    </div>
+                  </div>
+                  <div class="detail-card-sub" id="detail-humidity-sub">Comfortable atmospheric moisture</div>
+                </div>
+
+                <!-- 2. Wind Speed & Direction Card -->
+                <div class="detail-card">
+                  <div class="detail-card-top">
+                    <span class="detail-label">Wind Speed</span>
+                    <div class="detail-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
+                        <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
+                        <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="detail-card-value tabular-nums" id="detail-wind-val">19 km/h</div>
+                  </div>
+                  <div class="detail-card-sub" id="detail-wind-sub">Direction: <strong>SW</strong> (220°)</div>
+                </div>
+
+                <!-- 3. Pressure Card -->
+                <div class="detail-card">
+                  <div class="detail-card-top">
+                    <span class="detail-label">Barometric Pressure</span>
+                    <div class="detail-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m12 14 4-4"/>
+                        <path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="detail-card-value tabular-nums" id="detail-pressure-val">1014 hPa</div>
+                  </div>
+                  <div class="detail-card-sub" id="detail-pressure-sub">Normal pressure · Stable trend</div>
+                </div>
+
+                <!-- 4. Visibility Card -->
+                <div class="detail-card">
+                  <div class="detail-card-top">
+                    <span class="detail-label">Visibility</span>
+                    <div class="detail-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
+                        <circle cx="12" cy="12" r="3"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="detail-card-value tabular-nums" id="detail-visibility-val">9.5 km</div>
+                  </div>
+                  <div class="detail-card-sub" id="detail-visibility-sub">Crystalline view · Unlimited</div>
+                </div>
+
+                <!-- 5. UV Index Card -->
+                <div class="detail-card">
+                  <div class="detail-card-top">
+                    <span class="detail-label">UV Index</span>
+                    <div class="detail-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 4h.01"/><path d="M20 12h.01"/><path d="M12 20h.01"/><path d="M4 12h.01"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="detail-card-value tabular-nums" id="detail-uv-val">3 · Moderate</div>
+                    <div class="progress-bar-wrap">
+                      <div class="progress-bar-fill uv-bar-fill" id="detail-uv-bar" style="width: 28%;"></div>
+                    </div>
+                  </div>
+                  <div class="detail-card-sub" id="detail-uv-sub">Low solar risk during morning</div>
+                </div>
+
+                <!-- 6. Sunrise & Sunset Card -->
+                <div class="detail-card">
+                  <div class="detail-card-top">
+                    <span class="detail-label">Sun Cycle</span>
+                    <div class="detail-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/>
+                        <path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="detail-card-value tabular-nums" id="detail-sun-times-val">07:08 AM / 04:24 PM</div>
+                  </div>
+                  <div class="detail-card-sub" id="detail-sun-sub">Dawn: 07:08 AM · Dusk: 04:24 PM</div>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- 6. Hourly Forecast (Horizontally Scrollable) -->
+            <section class="weather-card hourly-forecast-section" id="forecast-section" aria-label="Hourly Forecast">
+              <div class="weather-card-header">
+                <div class="card-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  <span>Hourly Forecast</span>
+                  <span class="card-subtitle">(Next 24 Hours)</span>
+                </div>
+                <!-- Scroll Controls -->
+                <div class="hourly-scroll-controls">
+                  <button id="hourly-scroll-left" class="scroll-arrow-btn" aria-label="Scroll hourly forecast left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  </button>
+                  <button id="hourly-scroll-right" class="scroll-arrow-btn" aria-label="Scroll hourly forecast right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Horizontally Scrollable Track -->
+              <div class="hourly-forecast-track" id="hourly-forecast-track">
+                <!-- Dynamically populated via script.js -->
+              </div>
+            </section>
+
+          </div>
+
+          <!-- Right Column (Side Panel: 5-Day Outlook & Summary) -->
+          <div class="dashboard-side-col">
+            
+            <!-- 7. Five-Day Weather Forecast -->
+            <section class="weather-card" aria-label="5-Day Weather Forecast">
+              <div class="weather-card-header">
+                <div class="card-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                    <line x1="16" x2="16" y1="2" y2="6"/>
+                    <line x1="8" x2="8" y1="2" y2="6"/>
+                    <line x1="3" x2="21" y1="10" y2="10"/>
+                  </svg>
+                  <span>5-Day Forecast</span>
+                </div>
+                <span class="card-subtitle">Daily Outlook</span>
+              </div>
+
+              <!-- List of 5-day forecast items -->
+              <div class="forecast-list" id="five-day-forecast-list">
+                <!-- Dynamically populated via script.js -->
+              </div>
+
+              <!-- Air Quality Info -->
+              <div class="air-quality-badge-row">
+                <div style="display: flex; flex-direction: column;">
+                  <span style="font-size: 0.825rem; font-weight: 700;">Environmental Index</span>
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">Satellite Air Quality Station</span>
+                </div>
+                <div class="aqi-pill">Good (Clean)</div>
+              </div>
+            </section>
+
+            <!-- Project Highlights Card -->
+            <section class="weather-card" style="padding: 1.25rem;">
+              <div class="card-title" style="font-size: 0.95rem; margin-bottom: 0.75rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <span>Internship Milestone</span>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.85rem;">
+                <strong>Phase 1:</strong> Modular frontend component architecture, dual theme (light/dark), °C/°F unit conversions, and responsive design.
+              </p>
+              <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+                <strong>Phase 2 (Active):</strong> Live Open-Meteo REST API integration (Geocoding & Forecast endpoints, asynchronous JS, WMO condition mapping, timezone-accurate local clocks).
+              </p>
+              <button class="nav-about-trigger" style="margin-top: 1rem; width: 100%; font-size: 0.85rem; font-weight: 600; padding: 0.6rem; border-radius: var(--radius-md); background: var(--bg-input); color: var(--accent-primary); border: 1px solid var(--border-subtle); display: block; text-align: center;">
+                View Architecture Spec →
+              </button>
+            </section>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- 8. Footer -->
+    <footer class="site-footer">
+      <div class="app-container footer-inner">
+        <div class="footer-brand">
+          <div class="footer-brand-title">WeatherNow</div>
+          <div>Internship Project for Auspify Technologies · Powered by Open-Meteo REST API</div>
+        </div>
+        <div class="footer-links">
+          <a href="#dashboard">Dashboard</a>
+          <a href="#forecast-section">Forecast</a>
+          <a href="#about" class="nav-about-trigger">Architecture &amp; Docs</a>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">
+          &copy; 2026 WeatherNow. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <!-- 9. About & Architecture Modal -->
+    <div id="about-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3 id="modal-title" class="modal-title">About WeatherNow &amp; Project Architecture</h3>
+          <button id="about-close-btn" class="modal-close-btn" aria-label="Close dialog">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-section">
+          <h4>Auspify Technologies Internship Project Brief</h4>
+          <p>
+            WeatherNow is a modern, responsive SaaS-style weather dashboard built using pure HTML5, CSS3, and Vanilla JavaScript (ES6+).
+            Phase 2 integrates live real-time weather information using the Open-Meteo Geocoding &amp; Forecast REST APIs.
+          </p>
+        </div>
+
+        <div class="modal-section">
+          <h4>Phase 2 REST API Architecture (Implemented)</h4>
+          <ul>
+            <li><strong>Open-Meteo Geocoding API:</strong> Converts searched city names worldwide (e.g. Bengaluru, Bellary, Mumbai, London, New York, Tokyo) into precise latitude and longitude coordinates.</li>
+            <li><strong>Open-Meteo Forecast API:</strong> Asynchronously retrieves current atmospheric conditions, 24-hour hourly projections, and 5-day daily forecasts.</li>
+            <li><strong>Asynchronous JS:</strong> Implemented via <code>fetch()</code>, <code>async/await</code>, and <code>try/catch</code> blocks with thorough HTTP status validation.</li>
+            <li><strong>WMO Weather Code Mapping:</strong> Reusable function maps WMO codes (0–99) to readable descriptions (Clear Sky, Partly Cloudy, Drizzle, Rain, Thunderstorm, Snow) and matching day/night SVG icons.</li>
+            <li><strong>Dynamic Timezone Clocks:</strong> Computes the selected city's native local date and digital time using Open-Meteo's IANA timezone string.</li>
+            <li><strong>Instant Unit Conversion:</strong> Converts between °C and °F dynamically without redundant network roundtrips.</li>
+          </ul>
+          <div class="code-snippet">
+// Open-Meteo REST API Endpoints in script.js:<br/>
+GET https://geocoding-api.open-meteo.com/v1/search?name={city}&amp;count=10&amp;language=en&amp;format=json<br/>
+GET https://api.open-meteo.com/v1/forecast?latitude={lat}&amp;longitude={lon}&amp;current=...&amp;hourly=...&amp;daily=...&amp;timezone=auto
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h4>Zero Framework Compliance</h4>
+          <p>
+            Built strictly without React, Vue, Angular, or external UI runtimes. Works out of the box with VS Code Live Server and modern web standards.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. Toast Notification -->
+    <div id="toast-notification" class="toast-notification" role="status" aria-live="polite">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-primary);">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      <span id="toast-message-text">Notification</span>
+    </div>
+
+    <!-- JavaScript Application Entry Point -->
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
